@@ -1,3 +1,19 @@
+/*******************************************************************************
+* 
+*   File: FPCameraController.java
+*   Authors:
+* 
+* 
+*       Steven Phung
+*   Class: CS 4450.01 - Computer Graphics
+*
+*   Assignment: Final Program Check Point 1
+*   Date last modified: 3/5/2020
+*
+*   Purpose: Purpose of this class is to create our camera and control its
+*           movement logic, and to render polygons. 
+*
+*******************************************************************************/
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -18,6 +34,8 @@ public class FPCameraController {
     private float pitch = 0.0f;
     private Vector3Float me;
     
+    //Constructor: FPCameraController
+    //Purpose: Instantiate an FPCameraController object 
     public FPCameraController(float x, float y, float z){
         // instantiate postion Vector3f to the x y z parameters
         position = new Vector3f(x, y, z);
@@ -28,18 +46,22 @@ public class FPCameraController {
         IPostion.z = 0f;
     }
     
+    //Method: yaw(float)
+    //Purpose: Used to increment yaw
     public void yaw(float amount){
         // increment the yaw by the amount parameter
         yaw += amount;
     }
     
-    // increment the camera's current yaw rotation
+    //Method: pitch(float)
+    //Purpose: increment the camera's current yaw rotation
     public void pitch(float amount){
         // increment the pitch by the amount parameter
         pitch -= amount;
     }
     
-    // moves the camera forward relative to its current rotation (yaw)
+    //Method: walkForward(float)
+    //Purpose: moves the camera forward relative to its current rotation (yaw)
     public void walkForward(float distance){
         float xOffset = distance * (float)Math.sin(Math.toRadians(yaw));
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
@@ -47,6 +69,8 @@ public class FPCameraController {
         position.z += zOffset;
     }
     
+    //Method: walkBackwards(float)
+    //Purpose: moves the camera backwards relative to its current rotation (yaw)
     public void walkBackwards(float distance){
         float xOffset = distance * (float)Math.sin(Math.toRadians(yaw));
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
@@ -54,33 +78,37 @@ public class FPCameraController {
         position.z -= zOffset;
     }
     
-    // strafes the camera left relative to its its current rotation (yaw) 
+    //Method: strafeLeft(float)
+    //Purpose: strafes the camera left relative to its its current rotation (yaw) 
     public void strafeLeft(float distance){
         float xOffset = distance * (float)Math.sin(Math.toRadians( yaw - 90 ));
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw - 90));
         position.x -= xOffset;
-        position.y += zOffset;
+        position.z += zOffset;
     }
     
-    // strafes the camera right relative to its its current rotation (yaw) 
+    //Method: strafeLeft(float)
+    //Purpose: strafes the camera right relative to its its current rotation (yaw) 
     public void strafeRight(float distance){
         float xOffset = distance * (float)Math.sin(Math.toRadians( yaw + 90 ));
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw + 90));
         position.x -= xOffset;
-        position.y += zOffset;
+        position.z += zOffset;
     }
     
-    // moves the camera up relative to its current rotation (yaw)
+    //Method: moveUp(float)
+    //Purpose: moves the camera up relative to its current rotation (yaw)
     public void moveUp(float distance){
         position.y -= distance;
     }
     
-    // moves the camera down
+    //Method: moveDown(float)
+    //Purpose: moves the camera down
     public void moveDown(float distance){
         position.y += distance;
     }
     
-    // translates and rotate the matrix so that it looks through the camera
+    //Purpose: translates and rotate the matrix so that it looks through the camera
     // this does basically what gluLookAt() does
     public void lookThrough(){
         // rotate the pitch around the X axis 
@@ -91,8 +119,10 @@ public class FPCameraController {
         glTranslatef(position.x, position.y, position.z);
     }
     
+    //Method: gameLoop()
+    //Purpose: game loop that allows user to interact with game world using camera
     public void gameLoop(){
-        FPCameraController camera = new FPCameraController(0, 0, 0);
+        FPCameraController camera = new FPCameraController(0, 0, -2); //Start outside of cube
         float dx = 0.0f;
         float dy = 0.0f;
         float dt = 0.0f;                    // length of frame
@@ -119,16 +149,16 @@ public class FPCameraController {
             
             // when passing the distance to move we multiply the movementSpeed with dt this is a time scale
             // so if its a slow frame you move more then a fast frame so on a slow computer you move just as fast as on a fast computer
-            if (Keyboard.isKeyDown(Keyboard.KEY_W)){        // move forward
+            if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP)){        // move forward
                 camera.walkForward(movementSpeed);
             }
-            if (Keyboard.isKeyDown(Keyboard.KEY_S)){        // move backward
+            if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN)){        // move backward
                 camera.walkBackwards(movementSpeed);
             }
-            if (Keyboard.isKeyDown(Keyboard.KEY_A)){        // strafe left
+            if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)){        // strafe left
                 camera.strafeLeft(movementSpeed);
             }
-            if (Keyboard.isKeyDown(Keyboard.KEY_D)){        // strafe right
+            if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){        // strafe right
                 camera.strafeRight(movementSpeed);
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)){    // move up

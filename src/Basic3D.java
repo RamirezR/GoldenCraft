@@ -1,13 +1,32 @@
-import org.lwjgl.input.Keyboard;
+/*******************************************************************************
+* 
+*   File: Basic3D.java
+*   Authors:
+* 
+* 
+*       Steven Phung
+*   Class: CS 4450.01 - Computer Graphics
+*
+*   Assignment: Final Program Check Point 1
+*   Date last modified: 3/5/2020
+*
+*   Purpose: Purpose of this class is to create our 640x480 window, using
+*           display mode and a first person camera.
+*
+*******************************************************************************/
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.glu.GLU;
 
 public class Basic3D {
+    
+    //Camera and display mode
     private FPCameraController fp = new FPCameraController(0f, 0f, 0f);
     private DisplayMode displayMode;
     
+    //Method: start()
+    //Purpose: Create window and initiate openGL, and render to window
     public void start(){
         try{
             createWindow();
@@ -18,6 +37,8 @@ public class Basic3D {
         }
     }
     
+    //Method: createWindow()
+    //Purpose: create a 640x480 window
     private void createWindow() throws Exception{
         Display.setFullscreen(false);
         DisplayMode d[] = Display.getAvailableDisplayModes();
@@ -28,10 +49,12 @@ public class Basic3D {
             }
         }
         Display.setDisplayMode(displayMode);
-        Display.setTitle("Hey Mom!, I'm using OpenGL!!!");
+        Display.setTitle("Goldencraft");
         Display.create();
     }
     
+    //Method: initGL()
+    //Purpose: initiate gl properties
     private void initGL(){
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         
@@ -44,6 +67,8 @@ public class Basic3D {
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     }
     
+    //Method: main()
+    //Purpose: Start program
     public static void main(String args[]){
         Basic3D basic = new Basic3D();
         basic.start();
