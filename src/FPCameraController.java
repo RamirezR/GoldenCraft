@@ -157,11 +157,85 @@ public class FPCameraController {
     private void render(){
         try{
             glBegin(GL_QUADS);
+                // top
+                glColor3f(0.0f, 0.0f, 1.0f);
+                glVertex3f(1.0f, 1.0f, -1.0f);
+                glVertex3f(-1.0f, 1.0f, -1.0f);
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f(1.0f, 1.0f, 1.0f);
+                // bottom
+                glColor3f(0.0f, 1.0f, 0.0f);
+                glVertex3f(1.0f, -1.0f, 1.0f);
+                glVertex3f(-1.0f, -1.0f, 1.0f);
+                glVertex3f(-1.0f, -1.0f, -1.0f);
+                glVertex3f(1.0f, -1.0f, -1.0f);
+                // front
+                glColor3f(1.0f, 0.0f, 0.0f);
+                glVertex3f(1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f, -1.0f, 1.0f);
+                glVertex3f(1.0f, -1.0f, 1.0f);
+                // back
                 glColor3f(1.0f, 0.0f, 1.0f);
                 glVertex3f(1.0f, -1.0f, -1.0f);
                 glVertex3f(-1.0f, -1.0f, -1.0f);
                 glVertex3f(-1.0f, 1.0f, -1.0f);
                 glVertex3f(1.0f, 1.0f, -1.0f);
+                // left side
+                glColor3f(1.0f, 1.0f, .0f);
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f, 1.0f, -1.0f);
+                glVertex3f(-1.0f, -1.0f, -1.0f);
+                glVertex3f(-1.0f, -1.0f, 1.0f);
+                // right side
+                glColor3f(0.0f, 1.0f, 1.0f);
+                glVertex3f(1.0f, 1.0f, -1.0f);
+                glVertex3f(1.0f, 1.0f, 1.0f);
+                glVertex3f(1.0f, -1.0f, 1.0f);
+                glVertex3f(1.0f, -1.0f, -1.0f);
+            glEnd();
+            glBegin(GL_LINE_LOOP);
+                // top
+                glColor3f(0.0f,0.0f,0.0f);
+                glVertex3f(1.0f, 1.0f, -1.0f);
+                glVertex3f(-1.0f, 1.0f, -1.0f);
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f(1.0f, 1.0f, 1.0f);
+            glEnd();
+            glBegin(GL_LINE_LOOP);
+                // bottom
+                glVertex3f(1.0f, -1.0f, 1.0f);
+                glVertex3f(-1.0f, -1.0f, 1.0f);
+                glVertex3f(-1.0f, -1.0f, -1.0f);
+                glVertex3f(1.0f, -1.0f, -1.0f);
+            glEnd();
+            glBegin(GL_LINE_LOOP);
+                // front
+                glVertex3f(1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f, -1.0f, 1.0f);
+                glVertex3f(1.0f, -1.0f, 1.0f);
+            glEnd();
+            glBegin(GL_LINE_LOOP);
+                // back
+                glVertex3f(1.0f, -1.0f, -1.0f);
+                glVertex3f(-1.0f, -1.0f, -1.0f);
+                glVertex3f(-1.0f, 1.0f, -1.0f);
+                glVertex3f(1.0f, 1.0f, -1.0f);
+            glEnd();
+            glBegin(GL_LINE_LOOP);
+                // left
+                glVertex3f(-1.0f, 1.0f, 1.0f);
+                glVertex3f(-1.0f, 1.0f, -1.0f);
+                glVertex3f(-1.0f, -1.0f, -1.0f);
+                glVertex3f(-1.0f, -1.0f, 1.0f);
+            glEnd();
+            glBegin(GL_LINE_LOOP);
+                // right
+                glVertex3f(1.0f, 1.0f, -1.0f);
+                glVertex3f(1.0f, 1.0f, 1.0f);
+                glVertex3f(1.0f, -1.0f, 1.0f);
+                glVertex3f(1.0f, -1.0f, -1.0f);
             glEnd();
         }catch(Exception e){
             e.printStackTrace();
