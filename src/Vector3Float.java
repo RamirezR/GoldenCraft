@@ -4,7 +4,7 @@
 *   Authors:
 * 
 * 
-*       Steven Phung
+*       Steven Phung, Roberto Ramirez
 *   Class: CS 4450.01 - Computer Graphics
 *
 *   Assignment: Final Program Check Point 1
