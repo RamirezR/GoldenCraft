@@ -1,10 +1,7 @@
 /*******************************************************************************
 * 
 *   File: Basic3D.java
-*   Authors:
-* 
-* 
-*       Steven Phung, Roberto Ramirez
+*   Authors: Steven Phung, Roberto Ramirez, Alan Trieu
 *   Class: CS 4450.01 - Computer Graphics
 *
 *   Assignment: Final Program Check Point 1
