@@ -19,7 +19,7 @@ import org.lwjgl.util.glu.GLU;
 public class Basic3D {
     
     //Camera and display mode
-    private FPCameraController fp = new FPCameraController(0f, 0f, 0f);
+    private FPCameraController fp;
     private DisplayMode displayMode;
     
     //Method: start()
@@ -27,6 +27,7 @@ public class Basic3D {
     public void start(){
         try{
             createWindow();
+            fp = new FPCameraController(0f, 0f, 0f, 1);
             initGL();
             fp.gameLoop();      //render();
         }catch(Exception e){
@@ -53,6 +54,12 @@ public class Basic3D {
     //Method: initGL()
     //Purpose: initiate gl properties
     private void initGL(){
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_TEXTURE_2D);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         
         glMatrixMode(GL_PROJECTION);

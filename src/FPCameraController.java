@@ -31,9 +31,14 @@ public class FPCameraController {
     private float pitch = 0.0f;
     private Vector3Float me;
     
+    private Chunk[] chunk;
+    private int numChunks;
+    
+    private int seed = (int)System.currentTimeMillis();
+    
     //Constructor: FPCameraController
     //Purpose: Instantiate an FPCameraController object 
-    public FPCameraController(float x, float y, float z){
+    public FPCameraController(float x, float y, float z, int nChunks){
         // instantiate postion Vector3f to the x y z parameters
         position = new Vector3f(x, y, z);
         IPostion = new Vector3f(x, y, z);
@@ -41,6 +46,14 @@ public class FPCameraController {
         IPostion.x = 0f;
         IPostion.y = 15f;
         IPostion.z = 0f;
+        
+        numChunks = nChunks;
+        chunk = new Chunk[numChunks * numChunks];
+        for(int i = 0; i < numChunks; i++) {
+            for(int j = 0; j < numChunks; j++) {
+                chunk[j] = new Chunk(i * -60, 0, j * -60, seed);
+            }
+        }
     }
     
     //Method: yaw(float)
@@ -119,7 +132,7 @@ public class FPCameraController {
     //Method: gameLoop()
     //Purpose: game loop that allows user to interact with game world using camera
     public void gameLoop(){
-        FPCameraController camera = new FPCameraController(0, 0, -2); //Start outside of cube
+        FPCameraController camera = new FPCameraController(0, 0, -2, numChunks); //Start outside of cube
         float dx = 0.0f;
         float dy = 0.0f;
         float dt = 0.0f;                    // length of frame
@@ -171,9 +184,9 @@ public class FPCameraController {
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
-            // you would draw your scene here
-            
-            render();
+            for(int i = 0; i < chunk.length; i++) {
+                chunk[i].render();
+            }
             // draw the buffer to the screen
             Display.update();
             Display.sync(60);
