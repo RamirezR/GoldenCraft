@@ -5,12 +5,14 @@
 *   Class: CS 4450.01 - Computer Graphics
 *
 *   Assignment: Final Program Check Point 1
-*   Date last modified: 3/5/2020
+*   Date last modified: 4/20/2020
 *
 *   Purpose: Purpose of this class is to create our camera and control its
 *           movement logic, and to render polygons. 
 *
 *******************************************************************************/
+import java.nio.FloatBuffer;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -77,6 +79,11 @@ public class FPCameraController {
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
         position.x -= xOffset;
         position.z += zOffset;
+        
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(position.x-=xOffset).put(
+        position.y).put(position.z+=zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
     //Method: walkBackwards(float)
@@ -86,6 +93,11 @@ public class FPCameraController {
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
         position.x += xOffset;
         position.z -= zOffset;
+        
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(position.x-=xOffset).put(
+        position.y).put(position.z+=zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
     //Method: strafeLeft(float)
@@ -95,6 +107,11 @@ public class FPCameraController {
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw - 90));
         position.x -= xOffset;
         position.z += zOffset;
+        
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(position.x-=xOffset).put(
+        position.y).put(position.z+=zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
     //Method: strafeLeft(float)
@@ -104,6 +121,11 @@ public class FPCameraController {
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw + 90));
         position.x -= xOffset;
         position.z += zOffset;
+        
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(position.x-=xOffset).put(
+        position.y).put(position.z+=zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
     //Method: moveUp(float)
@@ -127,6 +149,11 @@ public class FPCameraController {
         glRotatef(yaw, 0.0f, 1.0f, 0.0f);
         // translate to the position vectors's location
         glTranslatef(position.x, position.y, position.z);
+        
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(position.x).put(
+        position.y).put(position.z).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
     //Method: gameLoop()
