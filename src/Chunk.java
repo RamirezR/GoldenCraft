@@ -82,7 +82,29 @@ public class Chunk {
             for(float z = 0; z < CHUNK_SIZE; z += 1) {
                 height = (int) (((noise.getNoise((int)x + (int)startX/2, (int)z + (int)startZ/2)) + 1) / 2 * 10) + 5;
                 for(float y = 0; y <= height; y++){
-
+                    if(y <= height) {
+                        //Spawn sand and water at top level
+                        if(y == height) {
+                            //Check if spawning water or sand is a valid spawn
+                            if(checkMaterialBoundaries(0, (int)x, (int)y, (int)z, materialBoundaries)) {
+                                Blocks[(int)x][(int)y][(int)z] = new Block(Block.BlockType.BlockType_Sand);
+                            } else if(checkMaterialBoundaries(1, (int)x, (int)y, (int)z, materialBoundaries)) {
+                                Blocks[(int)x][(int)y][(int)z] = new Block(Block.BlockType.BlockType_Water);
+                            } else {
+                                Blocks[(int)x][(int)y][(int)z] = new Block(Block.BlockType.BlockType_Grass);
+                            }
+                        //Spawn bedrock at bottom level
+                        } else if(y == 0) {
+                            Blocks[(int)x][(int)y][(int)z] = new Block(Block.BlockType.BlockType_Bedrock);
+                        //Spawn dirt and stone in between
+                        } else {
+                            double rand = r.nextDouble();
+                            if(rand <= 0.5)
+                                Blocks[(int)x][(int)y][(int)z] = new Block(Block.BlockType.BlockType_Dirt);
+                            else
+                                Blocks[(int)x][(int)y][(int)z] = new Block(Block.BlockType.BlockType_Stone);
+                        }
+                    }
                     VertexPositionData.put(createCube((float)(startX + x * CUBE_LENGTH), (float)(startY + y * CUBE_LENGTH), (float)(startZ + z * CUBE_LENGTH)));
                     VertexColorData.put(createCubeVertexCol(getCubeColor(Blocks[(int) x + (int)startX][(int) y][(int) z + (int)startZ])));
                     VertexTextureData.put(createTexCube((float) 0, (float) 0, Blocks[(int) x + (int)startX][(int) y][(int) z + (int)startZ]));
