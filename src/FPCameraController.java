@@ -45,9 +45,9 @@ public class FPCameraController {
         position = new Vector3f(x, y, z);
         IPostion = new Vector3f(x, y, z);
         
-        IPostion.x = 0f;
-        IPostion.y = 15f;
-        IPostion.z = 0f;
+        IPostion.x = -30f;
+        IPostion.y = 0f;
+        IPostion.z = 40f;
         
         numChunks = nChunks;
         chunk = new Chunk[numChunks * numChunks];
@@ -81,8 +81,8 @@ public class FPCameraController {
         position.z += zOffset;
         
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.x-=xOffset).put(
-        position.y).put(position.z+=zOffset).put(1.0f).flip();
+        lightPosition.put(IPostion.x-=xOffset).put(
+        IPostion.y).put(IPostion.z+=zOffset).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
@@ -95,8 +95,8 @@ public class FPCameraController {
         position.z -= zOffset;
         
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.x-=xOffset).put(
-        position.y).put(position.z+=zOffset).put(1.0f).flip();
+        lightPosition.put(IPostion.x+=xOffset).put(
+        IPostion.y).put(IPostion.z-=zOffset).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
@@ -109,8 +109,8 @@ public class FPCameraController {
         position.z += zOffset;
         
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.x-=xOffset).put(
-        position.y).put(position.z+=zOffset).put(1.0f).flip();
+        lightPosition.put(IPostion.x-=xOffset).put(
+        IPostion.y).put(IPostion.z+=zOffset).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
@@ -123,20 +123,26 @@ public class FPCameraController {
         position.z += zOffset;
         
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.x-=xOffset).put(
-        position.y).put(position.z+=zOffset).put(1.0f).flip();
+        lightPosition.put(IPostion.x-=xOffset).put(
+        IPostion.y).put(IPostion.z+=zOffset).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
     //Method: moveUp(float)
     //Purpose: moves the camera up relative to its current rotation (yaw)
     public void moveUp(float distance){
+        if(position.y < -36f){
+            return;
+        }
         position.y -= distance;
     }
     
     //Method: moveDown(float)
     //Purpose: moves the camera down
     public void moveDown(float distance){
+        if(position.y > -15f){
+            return;
+        }
         position.y += distance;
     }
     
@@ -151,15 +157,15 @@ public class FPCameraController {
         glTranslatef(position.x, position.y, position.z);
         
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.x).put(
-        position.y).put(position.z).put(1.0f).flip();
+        lightPosition.put(IPostion.x).put(
+        IPostion.y).put(IPostion.z).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
     
     //Method: gameLoop()
     //Purpose: game loop that allows user to interact with game world using camera
     public void gameLoop(){
-        FPCameraController camera = new FPCameraController(0, 0, -2, numChunks); //Start outside of cube
+        FPCameraController camera = new FPCameraController(-25, -30, -30, numChunks); //Start outside of cube
         float dx = 0.0f;
         float dy = 0.0f;
         float dt = 0.0f;                    // length of frame

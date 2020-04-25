@@ -65,7 +65,7 @@ public class Basic3D {
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         
@@ -80,7 +80,7 @@ public class Basic3D {
         glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
         glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
         glEnable(GL_LIGHTING);//enables our lighting
-        glEnable(GL_LIGHT0);//enables light0
+        glEnable(GL_LIGHT0);//enables light0 
     }
     
     //Method: initLightArrays()
