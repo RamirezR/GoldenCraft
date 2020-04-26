@@ -5,7 +5,7 @@
 *   Class: CS 4450.01 - Computer Graphics
 *
 *   Assignment: Final Program Check Point 1
-*   Date last modified: 4/20/2020
+*   Date last modified: 4/26/2020
 *
 *   Purpose: Purpose of this class is to create our camera and control its
 *           movement logic, and to render polygons. 
@@ -38,6 +38,10 @@ public class FPCameraController {
     
     private int seed = (int)System.currentTimeMillis();
     
+    private FloatBuffer whiteLight;
+    private FloatBuffer lightPosition;
+    private int day = 0;
+    
     //Constructor: FPCameraController
     //Purpose: Instantiate an FPCameraController object 
     public FPCameraController(float x, float y, float z, int nChunks){
@@ -47,7 +51,7 @@ public class FPCameraController {
         
         IPostion.x = -30f;
         IPostion.y = 0f;
-        IPostion.z = 40f;
+        IPostion.z = 55f;
         
         numChunks = nChunks;
         chunk = new Chunk[numChunks * numChunks];
@@ -74,7 +78,18 @@ public class FPCameraController {
     
     //Method: walkForward(float)
     //Purpose: moves the camera forward relative to its current rotation (yaw)
+    //leaving the boundary will teleport you back to middle 
     public void walkForward(float distance){
+        if(position.x < -60f || position.x > 0f){
+            position.x = -30f;
+            position.z = -30f;
+            return;
+        }
+        if(position.z < -60f || position.z > 0f){
+            position.x = -30f;
+            position.z = -30f;
+            return;
+        }
         float xOffset = distance * (float)Math.sin(Math.toRadians(yaw));
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
         position.x -= xOffset;
@@ -88,7 +103,18 @@ public class FPCameraController {
     
     //Method: walkBackwards(float)
     //Purpose: moves the camera backwards relative to its current rotation (yaw)
+    //leaving the boundary will teleport you back to middle 
     public void walkBackwards(float distance){
+        if(position.x < -60f || position.x > 0f){
+            position.x = -30f;
+            position.z = -30f;
+            return;
+        }
+        if(position.z < -60f || position.z > 0f){
+            position.x = -30f;
+            position.z = -30f;
+            return;
+        }
         float xOffset = distance * (float)Math.sin(Math.toRadians(yaw));
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw));
         position.x += xOffset;
@@ -102,7 +128,18 @@ public class FPCameraController {
     
     //Method: strafeLeft(float)
     //Purpose: strafes the camera left relative to its its current rotation (yaw) 
+    //leaving the boundary will teleport you back to middle 
     public void strafeLeft(float distance){
+        if(position.x < -60f || position.x > 0f){
+            position.x = -30f;
+            position.z = -30f;
+            return;
+        }
+        if(position.z < -60f || position.z > 0f){
+            position.x = -30f;
+            position.z = -30f;
+            return;
+        }
         float xOffset = distance * (float)Math.sin(Math.toRadians( yaw - 90 ));
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw - 90));
         position.x -= xOffset;
@@ -116,7 +153,18 @@ public class FPCameraController {
     
     //Method: strafeLeft(float)
     //Purpose: strafes the camera right relative to its its current rotation (yaw) 
+    //leaving the boundary will teleport you back to middle 
     public void strafeRight(float distance){
+        if(position.x < -60f || position.x > 0f){
+            position.x = -30f;
+            position.z = -30f;
+            return;
+        }
+        if(position.z < -60f || position.z > 0f){
+            position.x = -30f;
+            position.z = -30f;
+            return;
+        }
         float xOffset = distance * (float)Math.sin(Math.toRadians( yaw + 90 ));
         float zOffset = distance * (float)Math.cos(Math.toRadians(yaw + 90));
         position.x -= xOffset;
@@ -131,7 +179,7 @@ public class FPCameraController {
     //Method: moveUp(float)
     //Purpose: moves the camera up relative to its current rotation (yaw)
     public void moveUp(float distance){
-        if(position.y < -36f){
+        if(position.y < -46f){
             return;
         }
         position.y -= distance;
@@ -140,7 +188,7 @@ public class FPCameraController {
     //Method: moveDown(float)
     //Purpose: moves the camera down
     public void moveDown(float distance){
-        if(position.y > -15f){
+        if(position.y > -2f){
             return;
         }
         position.y += distance;
@@ -165,7 +213,7 @@ public class FPCameraController {
     //Method: gameLoop()
     //Purpose: game loop that allows user to interact with game world using camera
     public void gameLoop(){
-        FPCameraController camera = new FPCameraController(-25, -30, -30, numChunks); //Start outside of cube
+        FPCameraController camera = new FPCameraController(-30, -30, -30, numChunks); //Start inside of cube
         float dx = 0.0f;
         float dy = 0.0f;
         float dt = 0.0f;                    // length of frame
@@ -210,7 +258,30 @@ public class FPCameraController {
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){   // move down
                 camera.moveDown(movementSpeed);
             }
-            
+            if (Keyboard.isKeyDown(Keyboard.KEY_F1)){       // change day/night
+                if (day > 1){
+                    day = 0;
+                }
+                switch(day){
+                    case 0:
+                        whiteLight = BufferUtils.createFloatBuffer(4);
+                        whiteLight.put(0.0f).put(0.0f).put(0.0f).put(0.0f).flip();
+                        glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
+                        glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
+                        glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
+                        day++;
+                        break;
+                    case 1:
+                        whiteLight = BufferUtils.createFloatBuffer(4);
+                        whiteLight.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
+                        glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
+                        glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
+                        glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
+                        day++;
+                        break;
+                }
+            }
+
             // set the modelview matrix back to the identity
             glLoadIdentity();
             // look through the camera before you draw anything
